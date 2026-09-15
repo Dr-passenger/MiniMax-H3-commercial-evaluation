@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#111315">
+  <meta name="description" content="MiniMax Flow — 为 H3 视频创作而设计的本地节点工作台。">
+  <title>MiniMax Flow · 节点工作台</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="/" aria-label="MiniMax Flow 首页"><span class="brand-mark">m<span>✳</span></span><strong>MiniMax<span class="brand-flow">Flow</span></strong><span class="version">BETA</span></a>
+    <div class="breadcrumb"><span>本地工作空间</span><span class="slash">/</span><span id="project-title">光影之间 · 图生视频</span><span class="saved-dot" title="已保存在本机"></span></div>
+    <div class="top-actions"><span class="mode-indicator"><span></span>演示模式</span><button class="button subtle" id="save-button"><i data-icon="save"></i><span>保存</span><kbd>Ctrl S</kbd></button><button class="button subtle" id="export-button"><i data-icon="export"></i><span>导出</span></button><button class="avatar" id="preferences-button" aria-label="工作台设置">M</button></div>
+  </header>
+  <main class="workspace">
+    <nav class="rail" aria-label="主导航">
+      <div class="rail-main"><button class="rail-button active" data-panel="nodes" aria-label="节点库" title="节点库"><i data-icon="nodes"></i></button><button class="rail-button" data-panel="workflows" aria-label="工作流" title="工作流"><i data-icon="folder"></i></button><button class="rail-button" data-panel="assets" aria-label="素材库" title="素材库"><i data-icon="image"></i></button></div>
+      <div class="rail-bottom"><button class="rail-button" id="help-button" aria-label="快捷键与帮助" title="快捷键与帮助"><i data-icon="help"></i></button><button class="rail-button" id="settings-button" aria-label="设置" title="设置"><i data-icon="settings"></i></button><span class="rail-avatar">M</span></div>
+    </nav>
+    <aside class="library" id="library">
+      <div class="panel-heading"><h1 id="library-title">节点库</h1><button class="icon-button" id="collapse-library" aria-label="收起节点库"><i data-icon="panel"></i></button></div>
+      <div id="library-content"></div>
+      <div class="library-footer"><span class="mini-brand">✳</span><div><strong>MiniMax H3</strong><span>让灵感，自由连接。</span></div><span class="version">LOCAL</span></div>
+    </aside>
+    <section class="editor" aria-label="工作流编辑器">
+      <div class="tabbar"><div class="workflow-tab"><i data-icon="workflow"></i><span id="tab-title">光影之间 · 图生视频</span><span class="tab-dot"></span></div><button class="icon-button" id="new-workflow" aria-label="新建工作流" title="新建工作流"><i data-icon="plus"></i></button><div class="tab-spacer"></div><button class="icon-button" id="toggle-inspector" aria-label="切换任务面板" title="任务面板"><i data-icon="panel-right"></i></button></div>
+      <div class="canvas" id="canvas" tabindex="0" aria-label="节点画布：拖动节点标题移动，点击输出端口再点击输入端口连线">
+        <div class="canvas-context"><span class="canvas-label">WORKFLOW</span><h2 id="canvas-title">光影之间</h2><p id="canvas-subtitle">从一帧画面，开始一段故事。</p><div><span class="tag">图生视频</span><span class="context-dot">·</span><span id="node-total">5 个节点</span></div></div>
+        <div class="graph" id="graph"><svg class="connections" id="connections" aria-label="节点连线"></svg><div id="nodes"></div></div>
+        <div class="canvas-tip" id="canvas-tip"><i data-icon="mouse"></i>拖动空白处平移 <span>·</span> 滚轮缩放 <span>·</span> 双击添加节点</div>
+        <div class="canvas-tools"><button class="icon-button" id="zoom-out" aria-label="缩小"><i data-icon="minus"></i></button><button class="zoom-label" id="zoom-reset" aria-label="重置到百分之百">100%</button><button class="icon-button" id="zoom-in" aria-label="放大"><i data-icon="plus"></i></button><span class="tool-divider"></span><button class="icon-button" id="fit-button" aria-label="适应画布" title="适应画布 (F)"><i data-icon="fit"></i></button><button class="icon-button" id="minimap-button" aria-label="切换小地图" title="切换小地图"><i data-icon="map"></i></button></div>
+        <div class="minimap" id="minimap"><span>导航</span><svg id="minimap-svg" viewBox="0 0 1050 760"></svg></div>
+        <div class="run-dock"><div class="dock-info"><span class="ready-dot"></span><span id="run-status">准备就绪</span><span class="dock-divider"></span><span id="dock-detail">本地示例工作流</span></div><button class="run-button" id="run-button"><i data-icon="play"></i><span>演示运行</span><kbd>Ctrl ↵</kbd></button></div>
+      </div>
+      <footer class="statusbar"><div><span class="status-led"></span><span>本地工作台</span><span class="status-divider">/</span><span id="graph-count">5 节点 · 4 连接</span></div><span id="save-status">自动保存已开启</span><span>MiniMax Flow <span class="muted">v0.1</span></span></footer>
+    </section>
+    <aside class="inspector" id="inspector">
+      <div class="inspector-tabs"><button class="active" data-inspector="queue">任务队列 <span id="queue-count">0</span></button><button data-inspector="details">工作流</button></div>
+      <div id="inspector-content"></div>
+      <div class="inspector-note"><i data-icon="shield"></i><span>工作流保存在当前浏览器<br>示例预览不调用生成 API</span></div>
+    </aside>
+  </main>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <dialog id="dialog"><div id="dialog-content"></div></dialog>
+  <input type="file" id="workflow-file" accept=".json,application/json" hidden>
+  <input type="file" id="image-file" accept="image/png,image/jpeg,image/webp" hidden>
+  <script type="module" src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,10 @@
+preview-*.png
+check-import.json
+check-invalid.json
+node_modules/
+.env
+.env.*
+!.env.example
+*.log
+.DS_Store
+Thumbs.db
